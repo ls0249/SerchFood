@@ -96,7 +96,7 @@ public class MemberController {
 		
 			memberDao.join(dto);
 		
-			return new ModelAndView("redirect:member_list.bo");
+			return new ModelAndView("redirect:member_list.sf");
 			}else {
 				
 	            PrintWriter out = response.getWriter();

@@ -16,7 +16,7 @@
 	    => 설정파일에서 지정해준 후 mapper에 namespace속성으로 알려준다. 
 	-->   
 	<typeAliases> 
-		<typeAlias alias="MemberDto" type="com.sung.jun.dto.MemberDto"/>
+		<typeAlias alias="MemberDto" type="com.sung.sf.dto.MemberDto"/>
 	</typeAliases>
 	
 	<environments default="development">

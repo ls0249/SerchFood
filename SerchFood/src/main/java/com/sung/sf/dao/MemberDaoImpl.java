@@ -31,6 +31,7 @@ public class MemberDaoImpl implements MemberDao {
 		}
 		return false;
 	}
+	
 	@Override
 	public boolean login(String userId, String userPw) {
 		String checkPw = this.session.selectOne("member_login", userId);

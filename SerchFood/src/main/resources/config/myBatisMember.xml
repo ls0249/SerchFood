@@ -7,10 +7,10 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <!-- ibatis와 차이점(1) : alias의 위치가 바뀌었다  -->  
-<mapper namespace="com.sung.jun.dto.MemberDto">
+<mapper namespace="com.sung.sf.dto.MemberDto">
   
   	<!-- ibatis와 차이점(2) : 속성 이름이 class에서 type으로 바뀌었다.  -->  
-	<resultMap type="com.sung.jun.dto.MemberDto" id="MemberResult">
+	<resultMap type="com.sung.sf.dto.MemberDto" id="MemberResult">
 		
 		<result property="id" column="id"/>
 		<result property="password" column="password"/>

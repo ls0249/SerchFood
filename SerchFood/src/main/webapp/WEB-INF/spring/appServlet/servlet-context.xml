@@ -27,7 +27,7 @@
 	</beans:bean>
 	<!-- [ Bean 객체 관리 ] -->
 	<!-- * BoardDAOImpl 객체 생성 -->
-	<beans:bean id="memberDao" class="com.sung.sf.dao.MemberDaoImpl">
+	<beans:bean id="MemberDao" class="com.sung.sf.dao.MemberDaoImpl">
 		<!-- <beans:property name="jdbcTemplate" ref="jdbcTemplate"/> -->
 	</beans:bean>
 	<context:component-scan base-package="com.sung.sf.controller" />

@@ -7,7 +7,7 @@ public class MemberDto {
 	private String name;
 	private String phone;
 	private String gender;
-	
+
 	
 	public String getId() {
 		return id;
@@ -39,6 +39,4 @@ public class MemberDto {
 	public void setGender(String gender) {
 		this.gender = gender;
 	}
-	
-	
 }
