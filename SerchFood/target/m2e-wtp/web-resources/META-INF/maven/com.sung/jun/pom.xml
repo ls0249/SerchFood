@@ -41,13 +41,29 @@
 			<artifactId>spring-webmvc</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
+	
+		<!-- Java Mail API -->
+ 		<dependency>
+   			<groupId>javax.mail</groupId>
+     		<artifactId>mail</artifactId>
+    		<version>1.4.3</version>
+  		</dependency>
 		
+		<!-- 자바메일을 사용하기 위한 거  -->
+		<dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+            <version>${org.springframework-version}</version>
+        </dependency>
+
+
 		<!-- * DB 관련 추가 모듈 * -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-jdbc</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>com.oracle</groupId>
 			<artifactId>ojdbc6</artifactId>

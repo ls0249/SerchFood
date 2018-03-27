@@ -4,13 +4,31 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<script>
+//로그인 처리하기 
+
+
+
+
+
+
+
+
+
+</script>
+
+
+
+
+
 <title>로그인</title>
 </head>
 <body>
 	<div align="center">
 		<h1>로그인</h1>
 		<p>
-		<form action="member_login.sf" method="post">
+		<form action="member_login.bo" method="post">
 		<table border="1">
 				<tr align="center">
 					<th>ID</th>
@@ -23,7 +41,8 @@
 				<tr>
 					<td colspan=4 align="center">
 						<input type="submit" value="로그인"/>
-						<input type="button" value="회원가입" onClick="location.href='member_join.sf'"/>
+						<input type="button" value="회원가입" onClick="location.href='member_join.bo'"/>
+						
 					</td>
 				</tr>
 		</table>
