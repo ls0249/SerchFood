@@ -149,7 +149,7 @@ public class MainController {
 		String clientId = "JsRivo1hBqek9J_l3Tw3";//애플리케이션 클라이언트 아이디값";
         String clientSecret = "fZwfZXART3";//애플리케이션 클라이언트 시크릿값";
         int display = 2;
-        
+
         try {
             String text = URLEncoder.encode("충주 맛집", "utf-8");
             String apiURL = "https://openapi.naver.com/v1/search/local?query=" + text + "&display=" + display + "&";
