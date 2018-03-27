@@ -103,7 +103,7 @@ public class MemberController {
 		 return "redirect:/member_loginform.sf";
 	}
 	
-	
+	//dhodsdsdsd
 	//회원가입
 	@RequestMapping(value="/member_join.sf", method=RequestMethod.GET)
 	public ModelAndView joinform(HttpServletRequest request, HttpServletResponse response) {
