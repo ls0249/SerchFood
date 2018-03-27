@@ -29,7 +29,7 @@ public class MemberController {
 	private MemberDao memberDao;
 
 	//가입자 리스트 확인
-	@RequestMapping(value="/member_list.bo", method=RequestMethod.GET)
+	@RequestMapping(value="/member_list.sf", method=RequestMethod.GET)
 	protected ModelAndView listBoard(HttpServletRequest request, HttpServletResponse response) throws Exception {	
 		
 		ModelAndView mav = new ModelAndView();
@@ -41,7 +41,7 @@ public class MemberController {
 		return mav;
 	}
 	//로그인폼
-	@RequestMapping(value="/member_loginform.bo", method=RequestMethod.GET )
+	@RequestMapping(value="/member_loginform.sf", method=RequestMethod.GET )
 	public ModelAndView loginform(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("login");
@@ -79,7 +79,7 @@ public class MemberController {
 		}
 	} */
 	
-	@RequestMapping(value="/member_login.bo", method=RequestMethod.POST)
+	@RequestMapping(value="/member_login.sf", method=RequestMethod.POST)
 	public ModelAndView loginActionform(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		
 		String userId = request.getParameter("id");
@@ -91,23 +91,23 @@ public class MemberController {
 		boolean sign = memberDao.login(userId, userPw);
 		if(sign) {
 			session.setAttribute("userid",userId);
-			return new ModelAndView("redirect:inter_s.bo");
+			return new ModelAndView("redirect:inter_s.sf");
 		}else{
-			return new ModelAndView("redirect:inter_f.bo");
+			return new ModelAndView("redirect:inter_f.sf");
 		}
 	}
 	
-	@RequestMapping(value="/member_logout.bo", method=RequestMethod.POST)
+	@RequestMapping(value="/member_logout.sf", method=RequestMethod.POST)
 	public String logout(HttpServletRequest request, HttpServletResponse response, HttpSession session)	{
 		session.invalidate();
-		 return "redirect:/member_loginform.bo";
+		 return "redirect:/member_loginform.sf";
 	}
 	
 	
 	
 	
 	//회원가입
-	@RequestMapping(value="/member_join.bo", method=RequestMethod.GET)
+	@RequestMapping(value="/member_join.sf", method=RequestMethod.GET)
 	public ModelAndView joinform(HttpServletRequest request, HttpServletResponse response) {
 		
 		ModelAndView mav = new ModelAndView();
@@ -118,7 +118,7 @@ public class MemberController {
 	}
 	
 	
-	@RequestMapping(value="/member_idcheck.bo", method = {RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value="/member_idcheck.sf", method = {RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public String idcheck(HttpServletRequest request, HttpServletResponse response) {
 		
@@ -130,7 +130,7 @@ public class MemberController {
 		}
 	
 	
-	@RequestMapping(value="/member_emailcheck.bo",  method = {RequestMethod.GET, RequestMethod.POST},produces = "application/json")
+	@RequestMapping(value="/member_emailcheck.sf",  method = {RequestMethod.GET, RequestMethod.POST},produces = "application/json")
 	public boolean emailcheck(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 	int num = new Random().nextInt(100000)+1000;//난수생성
 	System.out.println(num+"난수생성");
@@ -157,7 +157,7 @@ public class MemberController {
 	
 	}
 	
-	@RequestMapping(value="/member_numbercheck.bo",  method = {RequestMethod.GET, RequestMethod.POST},produces = "application/json")
+	@RequestMapping(value="/member_numbercheck.sf",  method = {RequestMethod.GET, RequestMethod.POST},produces = "application/json")
 	public boolean numbercheck(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		//입력된 값
 		boolean numbercheck_flag =false;
@@ -170,7 +170,7 @@ public class MemberController {
 	
 
 	}
-	@RequestMapping(value="/member_join.bo", method=RequestMethod.POST)
+	@RequestMapping(value="/member_join.sf", method=RequestMethod.POST)
 	public ModelAndView join(HttpServletRequest request, HttpServletResponse response) {
 		
 		MemberDto dto = new MemberDto();
@@ -196,7 +196,7 @@ public class MemberController {
 		
 		memberDao.join(dto);
 		
-		ModelAndView mav =new ModelAndView("redirect:member_list.bo");
+		ModelAndView mav =new ModelAndView("redirect:member_list.sf");
 		return mav;
 		
 	}

@@ -10,11 +10,11 @@
 </head>
 <body>
 <table id="list"></table>
-	<form action="member_we.bo" method="post">
+	<form action="member_we.sf" method="post">
 <script>
 $funtion(){
 	$("#list").jqgrid({
-		url: "/member_list.bo",
+		url: "/member_list.sf",
 		datatype:
 	})	
 }

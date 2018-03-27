@@ -18,7 +18,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>appServlet</servlet-name>
-    <url-pattern>*.bo</url-pattern>
+    <url-pattern>*.sf</url-pattern>
   </servlet-mapping>
   <filter>
     <description> * 한글 인코딩 - 모든 파일 적용(/*) </description>

@@ -17,7 +17,7 @@ $(document).ready(function(){
 	$("#id").keyup(function(event){
 		if($("#id").val().length!=0){
 			$.ajax({
-				url :"/member_idcheck.bo",
+				url :"/member_idcheck.sf",
 				type: "post",
 				data : { "id" : $("#id").val()}
 			}).done(function(data){
@@ -64,7 +64,7 @@ $("#pw2").keyup(function(event){
 $("checkid").click(function(){
 	$.ajax({
 		type:"post",
-		url:"/member_numbercheck.bo",
+		url:"/member_numbercheck.sf",
 		data:{email:$("#email").val()}
 	}).done(function(obj){
 		alert(obj);
@@ -80,7 +80,7 @@ function tossemail(){
 	var e =$("#email").val()
 	$.ajax({
 		type:"post",
-		url:"/member_emailcheck.bo",
+		url:"/member_emailcheck.sf",
 		data:{email:$("#email").val()}
 		}).done(function(data){
 		});
@@ -91,7 +91,7 @@ function numbercheck(){
 	var n =$("#emailcheck").val()
 	$.ajax({
 		type:"post",
-		url:"/member_numbercheck.bo",
+		url:"/member_numbercheck.sf",
 		data:{emailcheck:$("emailcheck").val()}
 	}).done(function(data){
 	});
@@ -106,7 +106,7 @@ function numbercheck(){
 <title>회원가입창</title>
 </head>
 <body>
-<form action="member_join.bo"  method="post">
+<form action="member_join.sf"  method="post">
     <table width="940" style="padding:5px 0 5px 0; ">
       <tr height="2" bgcolor="#FFC8C3"><td colspan="2"></td></tr>
     

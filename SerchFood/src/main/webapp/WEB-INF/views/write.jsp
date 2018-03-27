@@ -8,7 +8,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<form action="board_write.bo" method="post">
+	<form action="board_write.sf" method="post">
 	
 	날짜<input type="text" id="date" name="date"></input><br>
 	작성자<input type="text" id="user" name="user" ></input><br>

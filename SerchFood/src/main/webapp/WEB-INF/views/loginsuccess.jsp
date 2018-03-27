@@ -8,7 +8,7 @@
 <title>환영합니다</title>
 </head>
 <body>
-<form action="/member_logout.bo"  method="post">
+<form action="/member_logout.sf"  method="post">
 로그인성공
 아이디:<% out.println(session.getAttribute("userid")); %><br/>
 <input type=submit value="로그아웃"/>
