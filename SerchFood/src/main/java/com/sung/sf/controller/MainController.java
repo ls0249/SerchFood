@@ -101,7 +101,7 @@ public class MainController {
         }
         return mav;
 		/*boolean searchMenu = searchDao.search(searchCategory);
-
+		//왜 안돼
 		if (searchMenu) {			//검색값이 DB에 있다면
 			
 			ModelAndView mav = new ModelAndView();
