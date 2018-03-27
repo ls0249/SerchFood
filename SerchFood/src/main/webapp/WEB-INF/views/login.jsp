@@ -10,7 +10,7 @@
 	<div align="center">
 		<h1>로그인</h1>
 		<p>
-		<form action="member_login.bo" method="post">
+		<form action="member_login.sf" method="post">
 		<table border="1">
 				<tr align="center">
 					<th>ID</th>
@@ -23,7 +23,7 @@
 				<tr>
 					<td colspan=4 align="center">
 						<input type="submit" value="로그인"/>
-						<input type="button" value="회원가입" onClick="location.href='member_join.bo'"/>
+						<input type="button" value="회원가입" onClick="location.href='member_join.sf'"/>
 					</td>
 				</tr>
 		</table>
