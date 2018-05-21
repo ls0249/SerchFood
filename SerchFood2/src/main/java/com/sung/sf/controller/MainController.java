@@ -120,7 +120,7 @@ public class MainController {
         }
         return mav;
 	}
-	
+	////////
 	//식당 보기
 		@RequestMapping(value = "/search_detail.sf", method = RequestMethod.GET)
 		public ModelAndView search_detail(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
