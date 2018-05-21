@@ -13,10 +13,14 @@
 	<resultMap type="com.sung.sf.dto.MemberDto" id="MemberResult">
 		<result property="seq" column="seq"/>
 		<result property="id" column="id"/>
-		<result property="password" column="password"/>
+		<result property="pw" column="pw"/>
+		<result property="pw2" column="pw2"/>
 		<result property="name" column="name"/>
 		<result property="phone" column="phone"/>
-		<result property="gender" column="gender"/>
+		<result property="phone2" column="phone2"/>
+		<result property="adress" column="adress"/>
+		<result property="email" column="email"/>
+		<result property="jumin" column="jumin"/>
 	</resultMap>
 	
 	<!-- ibatis와 같음 -->
@@ -33,7 +37,7 @@
 	</select>
 	
 	<insert id="member_join"  parameterType="MemberDto">
-		insert into members values (n_seq.nextval,  #{name}, #{jumin}, #{id}, #{pw}, #{pw2}, #{email},#{adress}, #{phone}, #{phone2})
+		insert into members values (test_seq.nextval,  #{name}, #{jumin}, #{id}, #{pw}, #{pw2}, #{email}, #{adress}, #{phone}, #{phone2})
 	</insert>
 	
 	<select id="member_id" parameterType="String" resultType="String">

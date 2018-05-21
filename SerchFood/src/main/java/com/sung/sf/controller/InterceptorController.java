@@ -17,7 +17,7 @@ public class InterceptorController {
 	@Autowired
 	private MemberDao memberDao;
 	
-	@RequestMapping(value="/inter_s.bo", method=RequestMethod.GET)
+	@RequestMapping(value="/inter_s.sf", method=RequestMethod.GET)
 	public ModelAndView loginsuccess(HttpServletRequest request, HttpServletResponse response) {
 		
 		ModelAndView mav = new ModelAndView();
@@ -26,7 +26,7 @@ public class InterceptorController {
 		
 	}
 	
-	@RequestMapping(value="/inter_f.bo", method=RequestMethod.GET)
+	@RequestMapping(value="/inter_f.sf", method=RequestMethod.GET)
 	public ModelAndView loginfail(HttpServletRequest request, HttpServletResponse response) {
 		
 		ModelAndView mav = new ModelAndView();

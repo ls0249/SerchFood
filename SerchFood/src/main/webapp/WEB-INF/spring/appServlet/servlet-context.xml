@@ -59,6 +59,14 @@
 	<beans:bean id="SearchDao"  class="com.sung.sf.dao.SearchDaoImpl">
 		<!-- <beans:property name="jdbcTemplate" ref="jdbcTemplate"/> -->
 	</beans:bean>
+	
+	<beans:bean id="RatingDao"  class="com.sung.sf.dao.RatingDaoImpl">
+		<!-- <beans:property name="jdbcTemplate" ref="jdbcTemplate"/> -->
+	</beans:bean>
+	
+	<beans:bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView" />
+
+	
 	<context:component-scan base-package="com.sung.sf.controller" />
 
 	

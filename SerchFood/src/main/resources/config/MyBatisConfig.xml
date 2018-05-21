@@ -18,6 +18,7 @@
 	<typeAliases> 
 		<typeAlias alias="MemberDto" type="com.sung.sf.dto.MemberDto"/>
 		<typeAlias alias="BoardDto"  type="com.sung.sf.dto.BoardDto"/>
+		<typeAlias alias="RatingDto"  type="com.sung.sf.dto.RatingDto"/>
 	</typeAliases>
 	
 	
@@ -36,6 +37,7 @@
 	<mappers>
 		<mapper resource="config/myBatisMember.xml" /><!-- 정보 알려주기 -->
 		<mapper resource="config/myBatisBoard.xml" />
+		<mapper resource="config/myBatisRating.xml" />
 	</mappers>
 	
 </configuration>

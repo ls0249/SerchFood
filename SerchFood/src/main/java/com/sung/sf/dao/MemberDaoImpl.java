@@ -89,8 +89,9 @@ public class MemberDaoImpl implements MemberDao {
 		}catch(MessagingException e){
 			System.out.println(e);
 			e.printStackTrace();
-		}
 			return false;
+		}
+			
 	}
 
 
@@ -106,12 +107,5 @@ public class MemberDaoImpl implements MemberDao {
 		String memberpw = session.selectOne(pw);
 		return memberpw;
 	}
-	
-	
-	
-	
-	
-	
-	
 	
 }
