@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>가입자 리스트</title>
 <a href="/member_join.sf">가입</a>
-<a href="/board_form.sf">글쓰기</a>
+<a href="board_form.sf">글쓰기</a>
 </head>
 <body>
 	<div align="center">
@@ -25,7 +25,7 @@
 				<th>주소</th>
 				<th>전화번호</th>
 				<th>핸드폰번호</th>
-			
+				
 			</tr>
 			<c:forEach var="member_list" items="${member_list}">
 				<tr align="center">

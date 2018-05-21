@@ -30,15 +30,15 @@
 	<!-- interceptor 설정하기 -->
 	<mvc:interceptors>
 		<mvc:interceptor>
+		<!--인터셉터 추가하기  -->
 			<mapping path="/loginsuccess"/>
 			<mapping path="/member_list.sf"/>
 			<mapping path="/board_list.sf"/>
-			<mapping path="/board_write.sf"/>
-			<!-- 인터셉터 추가하기 -->
+			<mapping path="/board_write.sf"/> 
 			<beans:bean class="com.sung.sf.interceptor.Interceptor"/>
 		</mvc:interceptor>
 	</mvc:interceptors>
-
+ 
 
 	
 	
@@ -59,14 +59,6 @@
 	<beans:bean id="SearchDao"  class="com.sung.sf.dao.SearchDaoImpl">
 		<!-- <beans:property name="jdbcTemplate" ref="jdbcTemplate"/> -->
 	</beans:bean>
-	
-	<beans:bean id="RatingDao"  class="com.sung.sf.dao.RatingDaoImpl">
-		<!-- <beans:property name="jdbcTemplate" ref="jdbcTemplate"/> -->
-	</beans:bean>
-	
-	<beans:bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView" />
-
-	
 	<context:component-scan base-package="com.sung.sf.controller" />
 
 	

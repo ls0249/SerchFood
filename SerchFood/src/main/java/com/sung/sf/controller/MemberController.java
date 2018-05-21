@@ -91,19 +91,21 @@ public class MemberController {
 		boolean sign = memberDao.login(userId, userPw);
 		if(sign) {
 			session.setAttribute("userid",userId);
-			return new ModelAndView("redirect:main.sf");
+			return new ModelAndView("redirect:inter_s.sf");
 		}else{
-			return new ModelAndView("redirect:member_login.sf");
+			return new ModelAndView("redirect:inter_f.sf");
 		}
 	}
 	
-	@RequestMapping(value="/member_logout.sf", method=RequestMethod.GET)
-	public String logout(HttpServletRequest request, HttpServletResponse response, HttpSession session)	{
+	@RequestMapping(value="/member_logout.sf", method=RequestMethod.POST)
+	public ModelAndView logout(HttpServletRequest request, HttpServletResponse response, HttpSession session)	{
 		session.invalidate();
-		 return "redirect:/main.sf";
+		ModelAndView mav= new  ModelAndView();
+		mav.setViewName("login");
+		return mav;
+		
 	}
 	
-	//기태바보
 	//회원가입
 	@RequestMapping(value="/member_join.sf", method=RequestMethod.GET)
 	public ModelAndView joinform(HttpServletRequest request, HttpServletResponse response) {
@@ -116,20 +118,22 @@ public class MemberController {
 	}
 	
 	
-	@RequestMapping(value="/member_idcheck.sf", method = {RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value="/member_idcheck.sf", method=RequestMethod.POST)
 	@ResponseBody
 	public String idcheck(HttpServletRequest request, HttpServletResponse response) {
 		
 		
-		String id = request.getParameter("id");
+		String id = (String)request.getParameter("id");
+		System.out.println(id);
 		String getid =memberDao.findById(id);
 		System.out.println(getid +id);
 		return getid;
 		}
-	
+
 	
 	@RequestMapping(value="/member_emailcheck.sf",  method = {RequestMethod.GET, RequestMethod.POST},produces = "application/json")
 	public boolean emailcheck(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+	
 	int num = new Random().nextInt(100000)+1000;//난수생성
 	System.out.println(num+"난수생성");
 	
@@ -156,13 +160,10 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value="/member_numbercheck.sf",  method = {RequestMethod.GET, RequestMethod.POST},produces = "application/json")
-	@ResponseBody
 	public boolean numbercheck(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		//입력된 값
 		boolean numbercheck_flag =false;
 		String emailcheck=request.getParameter("emailcheck");
-		System.out.println(emailcheck);
-		
 		if(((String)session.getAttribute("joinCode")).equals(emailcheck)) {
 			numbercheck_flag=true;
 		}
@@ -171,6 +172,8 @@ public class MemberController {
 	
 
 	}
+	
+	
 	@RequestMapping(value="/member_join.sf", method=RequestMethod.POST)
 	public ModelAndView join(HttpServletRequest request, HttpServletResponse response) {
 		
@@ -197,7 +200,7 @@ public class MemberController {
 		
 		memberDao.join(dto);
 		
-		ModelAndView mav =new ModelAndView("redirect:member_loginform.sf");
+		ModelAndView mav =new ModelAndView("redirect:member_list.sf");
 		return mav;
 		
 	}
