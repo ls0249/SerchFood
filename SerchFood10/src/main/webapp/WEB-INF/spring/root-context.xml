@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.2.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.2.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+		<!-- * DB관련 정보를 별도의 파일로 만들어두고 읽어오는 구조 -->
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations" value="classpath:config/jdbc.properties"/>
+	</bean>
+	
+	<!-- * 커넥션 풀을 사용하기 위한 모듈 : commons-dbcp 이용! -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+	
+		<property name="driverClassName" value="${jdbc.driver}"/>
+		<property name="url" value="${jdbc.url}"/>
+		<property name="username" value="${jdbc.username}"/>
+		<property name="password" value="${jdbc.password}"/>
+		
+		<property name="maxActive" value="50"/><!-- 최대 연결 개수 -->
+		<property name="maxIdle" value="30"/><!-- 접속이 뜸할 경우 유지해야 할 최대 개수 -->
+		<property name="minIdle" value="20"/><!-- 접속이 뜸할 경우 유지해야 할 최소 유지 개수 -->
+		<property name="maxWait" value="5"/><!-- 최대 대기 유지 시간 -->
+		
+	</bean>
+	
+	<!-- * jdbcTemplate에 관한 객체 생성 -->
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<constructor-arg ref="dataSource"/> <!-- 빈 객체를 생성자로 전달해준다. -->
+	</bean>
+	
+	<!-- 이메일 관련 -->
+	<bean id="javaMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+    <property name="host" value="smtp.gmail.com" />
+    <property name="port" value="587" />
+    <property name="username" value="rkswlxo1178@gmail.com" />
+    <property name="password" value="gt0245821a!" />
+    <property name="javaMailProperties">
+        <props>
+            <prop key="mail.smtp.ssl.trust">smtp.gmail.com</prop>
+            <prop key="mail.smtp.starttls.enable">true</prop>
+            <prop key="mail.smtp.auth">true</prop>
+        </props>
+    </property>
+	</bean>
+	
+	
+	
+
+	<!--<bean id="mailService" class="service.other.MailServiceImpl">
+    <property name="javaMailSender" ref="javaMailSender" />
+	</bean>  -->
+
+</beans>
