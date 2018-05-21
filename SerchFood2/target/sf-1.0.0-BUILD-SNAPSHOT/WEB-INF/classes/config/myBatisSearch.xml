@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- [ myBatis 설정 관련 ] : http://mybatis.org/mybatis-3/ko/getting-started.html -->
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- ibatis와 차이점(1) : alias의 위치가 바뀌었다 -->
+<mapper namespace="com.sung.sf.dto.SearchDto">
+
+	<!-- ibatis와 차이점(2) : 속성 이름이 class에서 type으로 바뀌었다. -->
+	<resultMap type="com.sung.sf.dto.SearchDto" id="SearchResult">
+
+		<result property="title" column="title" />
+		<result property="link" column="link" />
+		<result property="description" column="description" />
+		<result property="telephone" column="telephone" />
+		<result property="address" column="address" />
+		<result property="roadaddress" column="roadaddress" />
+		<result property="mapx" column="mapx" />
+		<result property="mapy" column="mapy" />
+		<result property="category" column="category" />
+		<result property="display" column="display" />
+
+	</resultMap>
+
+	<!-- 음식 검색 결과를 가져옴 -->
+	<select id="search_list" parameterType="String" resultMap="SearchResult"
+		resultType="SearchDto">
+		select * from searchfood where category like
+		'%'||#{category}||'%' or title like '%'||#{title}||'%'
+	</select>
+
+	<!-- 음식 검색 -->
+	<select id="search_food" parameterType="String" resultType="SearchDto">
+		select * from searchfood where category like '%'||#{category}||'%' or
+		title like '%'||#{title}||'%'
+	</select>
+
+	<!-- 음식 랜덤 추천 -->
+	<select id="random_search" resultType="String" >
+		select category from ( select category from searchfood order by dbms_random.random() ) where rownum = 1
+	</select>
+
+</mapper>
