@@ -296,6 +296,8 @@ public class MainController {
 			return mav;
 		}
 	
+	//
+		//
 	//오늘의 메뉴 랜덤 추천
 	@RequestMapping(value = "/randomSearch.sf", method = RequestMethod.GET)
 	public ModelAndView randomSearch(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
