@@ -53,7 +53,6 @@ public class MainController {
 		return mav;
 	}
 
-	////////
 	// 음식 검색
 	@RequestMapping(value = "/search_list.sf", method = RequestMethod.GET)
 	public ModelAndView mainActionform(HttpServletRequest request, HttpServletResponse response) throws Exception {
