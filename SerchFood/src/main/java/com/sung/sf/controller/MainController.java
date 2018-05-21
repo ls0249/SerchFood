@@ -40,8 +40,8 @@ public class MainController {
 	private SearchDao searchDao;
 	public static StringBuilder sb;
 
-	// 메인 화면
-	@RequestMapping(value = "/main.sf")//, method = RequestMethod.GET)
+	// 음식 검색
+	@RequestMapping(value = "/main.sf", method = RequestMethod.GET)
 	public ModelAndView Main(HttpServletRequest request, HttpServletResponse response, HttpSession session)
 			throws Exception {
 
@@ -53,23 +53,19 @@ public class MainController {
 		return mav;
 	}
 
-	// 음식 검색
-	@RequestMapping(value = "/search_list.sf", method = RequestMethod.GET)
+	@RequestMapping(value = "/main.sf", method = RequestMethod.POST)
 	public ModelAndView mainActionform(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		String searchCategory = request.getParameter("category");
 		System.out.println(searchCategory);
 		
-		int start = Integer.parseInt(request.getParameter("start"));
-		int page = Integer.parseInt(request.getParameter("page"));
-		
 		ModelAndView mav = new ModelAndView();
-		
 		String clientId = "JsRivo1hBqek9J_l3Tw3";//애플리케이션 클라이언트 아이디값";
         String clientSecret = "fZwfZXART3";//애플리케이션 클라이언트 시크릿값";
         try {
             String text = URLEncoder.encode(searchCategory, "UTF-8");
-            String apiURL = "https://openapi.naver.com/v1/search/local?query="+ text + "&start=" + start; // json 결과
+            String apiURL = "https://openapi.naver.com/v1/search/local?query="+ text; // json 결과
+            //String apiURL = "https://openapi.naver.com/v1/search/blog.xml?query="+ text; // xml 결과
             URL url = new URL(apiURL);
             HttpURLConnection con = (HttpURLConnection)url.openConnection();
             con.setRequestMethod("GET");
@@ -88,216 +84,48 @@ public class MainController {
             	buffer.append(inputLine);
             }
             br.close();
-            System.out.println("searchView : " + buffer.toString());
-            HashMap<String, Object> rs = new ObjectMapper().readValue(buffer.toString(), HashMap.class);
+            System.out.println(buffer.toString());
+            HashMap<String, Object> rs = new ObjectMapper().readValue(buffer.toString(), HashMap.class) ;
 
-            int total = (Integer) rs.get("total");
-            int endPage = (total + (10-1))/10;
-            
-            int curBlock = (int)Math.ceil((page-1) / 5)+1;	// 현재 page block
-            int blockBegin = (curBlock-1)*5+1;				// page block 시작값
-            int blockEnd = blockBegin+5-1;					// page block 마지막값
-            if(blockEnd > endPage) blockEnd = endPage;		// page block 마지막값이 총 page 보다 클경우 
-            
-            request.setAttribute("page", page);
-            request.setAttribute("blockBegin", blockBegin);
-            request.setAttribute("blockEnd", blockEnd);
-            request.setAttribute("endPage", endPage);
-            request.setAttribute("category", searchCategory);
-            
-            
             JSONObject jobj = new JSONObject();
             jobj.putAll(rs);
-            //JSONArray jarray = (JSONArray)jobj.get("items");
-            System.out.println("searchView json : "+jobj);
+            JSONArray jarray = (JSONArray)jobj.get("items");
+            System.out.println("@@@"+jarray);
+
+            mav.addObject("food", jarray);
+    		mav.setViewName("searchView");
             
-
-            mav.addObject("search", jobj);
-            mav.setViewName("searchView");
-
         } catch (Exception e) {
             System.out.println(e);
         }
         return mav;
+	
+		/*boolean searchMenu = searchDao.search(searchCategory);
+		//왜 안돼
+		if (searchMenu) {			//검색값이 DB에 있다면
+			
+			ModelAndView mav = new ModelAndView();
+
+			List<SearchDto> list = searchDao.searchList(searchCategory);
+			mav.addObject("search_list", list);
+			mav.setViewName("searchView");
+
+			return mav;
+			//return new ModelAndView("redirect:search_list.sf");
+			
+		} else {					//검색값이  DB에 없다면
+            response.setContentType("text/html; charset=UTF-8");
+            PrintWriter out = response.getWriter();
+            out.println("<script language='javascript'>");
+            out.println("alert('잘못된 검색입니다!');");
+            out.println("</script>");
+            out.flush();
+            
+			return new ModelAndView("main");
+		}*/
+
 	}
 	
-	//식당 보기
-		@RequestMapping(value = "/search_detail.sf", method = RequestMethod.GET)
-		public ModelAndView search_detail(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-
-			ModelAndView mav = new ModelAndView();
-			
-			int start = 1;
-			int page = 1;
-			
-			if(request.getParameter("start") != null && request.getParameter("page") != null) {
-				start = Integer.parseInt(request.getParameter("start"));
-				page = Integer.parseInt(request.getParameter("page"));
-			}
-			
-			//detail을 보여주기 위해 검색한 parameter category값을 가져온다.
-			String result = request.getParameter("category");
-			result = result.replaceAll("<b>", "");
-			result = result.replaceAll("</b>", "");
-			
-			//blog를 찾기 위한 parameter 값
-			String blogCategory = request.getParameter("blogCategory");
-			blogCategory = blogCategory.replaceAll("<b>", "");
-			blogCategory = blogCategory.replaceAll("</b>", "");
-			//검색어와 검색된 category의 결과를 합쳐 blog를 찾는다.
-			//String blogResult = blogCategory.concat(result);
-						
-			String commendCategory = blogCategory;
-			
-			System.out.println("@@" + commendCategory);
-			
-			
-			// 해당 지점 detail을 보여주기 위해 가져온 parameter 값
-			int mapx = Integer.parseInt(request.getParameter("mapx"));
-			int mapy = Integer.parseInt(request.getParameter("mapy"));
-			
-			System.out.println("detailCategory : " + result + " detailMap : " + mapx + ", " + mapy);
-			
-			String clientId = "JsRivo1hBqek9J_l3Tw3";//애플리케이션 클라이언트 아이디값";
-	        String clientSecret = "fZwfZXART3";//애플리케이션 클라이언트 시크릿값";
-	        try {
-	            String text = URLEncoder.encode(result, "UTF-8");
-	            String apiURL = "https://openapi.naver.com/v1/search/local?query="+ text; //검색 json 결과
-
-	            URL url = new URL(apiURL);
-	            HttpURLConnection con = (HttpURLConnection)url.openConnection();
-	            con.setRequestMethod("GET");
-	            con.setRequestProperty("X-Naver-Client-Id", clientId);
-	            con.setRequestProperty("X-Naver-Client-Secret", clientSecret);
-	            int responseCode = con.getResponseCode();
-	            BufferedReader br;
-	            if(responseCode==200) { // 정상 호출
-	                br = new BufferedReader(new InputStreamReader(con.getInputStream()));
-	            } else {  // 에러 발생
-	                br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
-	            }
-	            String inputLine;
-	            StringBuffer buffer = new StringBuffer();
-	            while ((inputLine = br.readLine()) != null) {
-	            	buffer.append(inputLine);
-	            }
-	            br.close();
-	            System.out.println("searchDetail : " + buffer.toString());
-	            HashMap<String, Object> rs = new ObjectMapper().readValue(buffer.toString(), HashMap.class);
-			
-	            JSONObject jobj = new JSONObject();
-	            jobj.putAll(rs);
-	            JSONArray jarray = (JSONArray)jobj.get("items");
-	            System.out.println("searchDetail json : "+jarray);
-	            
-	            request.setAttribute("category", result);
-	            request.setAttribute("mapx", mapx);
-	            request.setAttribute("mapy", mapy);
-	            
-	            mav.addObject("searchResult", jarray);
-	            
-			
-	        } catch (Exception e) {
-	            System.out.println(e);
-	        }
-	        
-	        //화면 중단 주변 식당 추천
-	        try {
-	            String text = URLEncoder.encode(commendCategory, "UTF-8");
-	            String apiURL = "https://openapi.naver.com/v1/search/local?query="+ text; //검색 json 결과
-
-	            URL url = new URL(apiURL);
-	            HttpURLConnection con = (HttpURLConnection)url.openConnection();
-	            con.setRequestMethod("GET");
-	            con.setRequestProperty("X-Naver-Client-Id", clientId);
-	            con.setRequestProperty("X-Naver-Client-Secret", clientSecret);
-	            int responseCode = con.getResponseCode();
-	            BufferedReader br;
-	            if(responseCode==200) { // 정상 호출
-	                br = new BufferedReader(new InputStreamReader(con.getInputStream()));
-	            } else {  // 에러 발생
-	                br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
-	            }
-	            String inputLine;
-	            StringBuffer buffer = new StringBuffer();
-	            while ((inputLine = br.readLine()) != null) {
-	            	buffer.append(inputLine);
-	            }
-	            br.close();
-	            System.out.println("menuDetail : " + buffer.toString());
-	            HashMap<String, Object> rs = new ObjectMapper().readValue(buffer.toString(), HashMap.class);
-			
-	            JSONObject jobj = new JSONObject();
-	            jobj.putAll(rs);
-	            JSONArray jarray = (JSONArray)jobj.get("items");
-	            System.out.println("menuDetail json : "+jarray);
-	            
-	            mav.addObject("menuResult", jarray);
-	            
-			
-	        } catch (Exception e) {
-	            System.out.println(e);
-	        }
-	        	        
-	        //화면 하단 블로그 리스트
-	        try {
-	            String blog = URLEncoder.encode(blogCategory, "UTF-8");
-	            String apiURL = "https://openapi.naver.com/v1/search/blog?query="+ blog + "&start=" + start; //검색 json 결과
-
-	            URL url = new URL(apiURL);
-	            HttpURLConnection con = (HttpURLConnection)url.openConnection();
-	            con.setRequestMethod("GET");
-	            con.setRequestProperty("X-Naver-Client-Id", clientId);
-	            con.setRequestProperty("X-Naver-Client-Secret", clientSecret);
-	            int responseCode = con.getResponseCode();
-	            BufferedReader br;
-	            if(responseCode==200) { // 정상 호출
-	                br = new BufferedReader(new InputStreamReader(con.getInputStream()));
-	            } else {  // 에러 발생
-	                br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
-	            }
-	            String inputLine;
-	            StringBuffer buffer = new StringBuffer();
-	            while ((inputLine = br.readLine()) != null) {
-	            	buffer.append(inputLine);
-	            }
-	            br.close();
-	            System.out.println("blogSearch : " + buffer.toString());
-	            HashMap<String, Object> rs = new ObjectMapper().readValue(buffer.toString(), HashMap.class);
-			
-	            int total = (Integer) rs.get("total");
-	            int display = (Integer) rs.get("display");
-	            int endPage = (total + (10-1))/10;
-	            if(endPage > 10) endPage = 10;
-	            
-	            int curBlock = (int)Math.ceil((page-1) / 5)+1;
-	            int blockBegin = (curBlock-1)*5+1;
-	            int blockEnd = blockBegin+5-1;
-	            if(blockEnd > endPage) blockEnd = endPage;
-	            
-	            request.setAttribute("page", page);
-	            request.setAttribute("blockBegin", blockBegin);
-	            request.setAttribute("blockEnd", blockEnd);
-	            request.setAttribute("endPage", endPage);
-	            request.setAttribute("display", display);
-	            request.setAttribute("blogCategory", blogCategory);
-	            
-	            JSONObject jobj = new JSONObject();
-	            jobj.putAll(rs);
-	            JSONArray jarray = (JSONArray)jobj.get("items");
-
-	            mav.addObject("blogResult", jarray);
-			
-	        } catch (Exception e) {
-	            System.out.println(e);
-	        }
-	        mav.setViewName("searchDetail");
-	        
-			return mav;
-		}
-	
-	//
-		//
 	//오늘의 메뉴 랜덤 추천
 	@RequestMapping(value = "/randomSearch.sf", method = RequestMethod.GET)
 	public ModelAndView randomSearch(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
@@ -312,5 +140,133 @@ public class MainController {
 
 		return mav;
 	}
+	
+/*	//네이버 검색
+	@RequestMapping(value = "/blog.sf", method = RequestMethod.GET)
+	public ModelAndView naver(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		System.out.println("시작");
+		String clientId = "JsRivo1hBqek9J_l3Tw3";//애플리케이션 클라이언트 아이디값";
+        String clientSecret = "fZwfZXART3";//애플리케이션 클라이언트 시크릿값";
+        int display = 2;
+
+        try {
+            String text = URLEncoder.encode("충주 맛집", "utf-8");
+            String apiURL = "https://openapi.naver.com/v1/search/local?query=" + text + "&display=" + display + "&";
+            URL url = new URL(apiURL);
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("GET");
+            con.setRequestProperty("X-Naver-Client-Id", clientId);
+            con.setRequestProperty("X-Naver-Client-Secret", clientSecret);
+            int responseCode = con.getResponseCode();
+            BufferedReader br;
+            if (responseCode == 200) {
+                br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            } else {
+                br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+            }
+            sb = new StringBuilder();
+            String line;
+ 
+            while ((line = br.readLine()) != null) {
+                //sb.append(line + "\n");
+            	sb.append(line);
+            }
+            br.close();
+            con.disconnect();
+            
+            String data = sb.toString();
+            String[] array;
+            array = data.split("\"");
+            String[] title = new String[display];
+            String[] link = new String[display];
+            String[] category = new String[display];
+            String[] description = new String[display];
+            String[] telephone = new String[display];
+            String[] address = new String[display];
+            String[] mapx = new String[display];
+            String[] mapy = new String[display];
+            int k = 0;
+            for (int i = 0; i < array.length; i++) {
+                if (array[i].equals("title"))
+                    title[k] = array[i + 2];
+                if (array[i].equals("link"))
+                    link[k] = array[i + 2];
+                if (array[i].equals("category"))
+                    category[k] = array[i + 2];
+                if (array[i].equals("description"))
+                    description[k] = array[i + 2];
+                if (array[i].equals("telephone"))
+                    telephone[k] = array[i + 2];
+                if (array[i].equals("address"))
+                    address[k] = array[i + 2];
+                if (array[i].equals("mapx"))
+                    mapx[k] = array[i + 2];
+                if (array[i].equals("mapy")) {
+                    mapy[k] = array[i + 2];
+                    k++;
+                }
+            }
+            System.out.println(sb);
+            System.out.println("----------------------------");
+            System.out.println("첫번째 타이틀 : " + title[0]);
+            System.out.println("두번째 타이틀 : " + title[1]);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        
+		ModelAndView mav = new ModelAndView();
+		System.out.println("넘겨주세요~"+sb);
+		mav.addObject("items", sb);
+		mav.setViewName("searchView");
+
+		return mav;
+	}*/
+
+	/*@RequestMapping(value = "/blog.sf", method = RequestMethod.GET)
+	public ModelAndView naver(HttpServletRequest request, HttpServletResponse response, HttpSession session)
+			throws Exception {
+		ModelAndView mav = new ModelAndView();
+		String clientId = "JsRivo1hBqek9J_l3Tw3";//애플리케이션 클라이언트 아이디값";
+        String clientSecret = "fZwfZXART3";//애플리케이션 클라이언트 시크릿값";
+        try {
+            String text = URLEncoder.encode("개봉맛집", "UTF-8");
+            String apiURL = "https://openapi.naver.com/v1/search/local?query="+ text; // json 결과
+            //String apiURL = "https://openapi.naver.com/v1/search/blog.xml?query="+ text; // xml 결과
+            URL url = new URL(apiURL);
+            HttpURLConnection con = (HttpURLConnection)url.openConnection();
+            con.setRequestMethod("GET");
+            con.setRequestProperty("X-Naver-Client-Id", clientId);
+            con.setRequestProperty("X-Naver-Client-Secret", clientSecret);
+            int responseCode = con.getResponseCode();
+            BufferedReader br;
+            if(responseCode==200) { // 정상 호출
+                br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            } else {  // 에러 발생
+                br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+            }
+            String inputLine;
+            StringBuffer buffer = new StringBuffer();
+            while ((inputLine = br.readLine()) != null) {
+            	buffer.append(inputLine);
+            }
+            br.close();
+            System.out.println(buffer.toString());
+            HashMap<String, Object> rs = new ObjectMapper().readValue(buffer.toString(), HashMap.class) ;
+
+            JSONObject jobj = new JSONObject();
+            jobj.putAll(rs);
+            JSONArray jarray = (JSONArray)jobj.get("items");
+            System.out.println("@@@"+jarray);
+
+            mav.addObject("items", jarray);
+    		mav.setViewName("searchView");
+            
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    
+		return mav;
+	}*/
 	
 }

@@ -11,4 +11,9 @@ public interface BoardDao {
 	
 	public List list();
 	
+	public List board_read(int seq);
+	
+	public void update(BoardDto dto);
+	
+	public void delete(BoardDto dto);
 }

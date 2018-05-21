@@ -46,10 +46,10 @@ public class MemberDaoImpl implements MemberDao {
 	
 	@Override
 	public boolean login(String userId, String userPw) {
-		String checkPw = this.session.selectOne("member_login", userId);
-		if(checkPw == null) {
+		String checkPw = this.session.selectOne("member_login", userId);//id가 같으면 pw를 가져오는 쿼리문을 작성
+		if(checkPw == null) {//아이디가 같지안으면 pw를 가져오지 않겠고 , 아이디가 같으면 pw를 가져온다 null이라는 것은 아이디가 같지 않음을 의미 즉 pw가 없으면
 			return false;
-		}else if(checkPw.equals(userPw)) {
+		}else if(checkPw.equals(userPw)) {//가져온 pw가 입력된 값과 같으면 참
 			return true;
 		}
 		return false;
@@ -89,9 +89,8 @@ public class MemberDaoImpl implements MemberDao {
 		}catch(MessagingException e){
 			System.out.println(e);
 			e.printStackTrace();
-			return false;
 		}
-			
+			return false;
 	}
 
 
@@ -107,5 +106,12 @@ public class MemberDaoImpl implements MemberDao {
 		String memberpw = session.selectOne(pw);
 		return memberpw;
 	}
+	
+	
+	
+	
+	
+	
+	
 	
 }

@@ -1,6 +1,8 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page import="java.io.*,java.util.*" %>
+<%@ page import="javax.servlet.*,java.text.*" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -9,13 +11,16 @@
 </head>
 <body>
 	<form action="board_write.sf" method="post">
-	
-	³¯Â¥<input type="text" id="date" name="date"></input><br>
-	ÀÛ¼ºÀÚ<input type="text" id="user" name="user" ></input><br>
-	Á¦¸ñ<input type="text" id="title" name="title" placeholder="Á¦¸ñÀ» ÀÔ·ÂÇØÁÖ¼¼¿ä"></input><br>
-	³»¿ë<textarea name="content" id="contents" rows="4" cols="80" placeholder="³»¿ëÀ» ÀÔ·ÂÇØÁÖ¼¼¿ä"></textarea>
+	<%
+   Date dNow = new Date( );
+   SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd HH:mm:ss");
+	%>
+	ë‚ ì§œ<input type="text" id="date" name="date" value= <% out.println(ft.format(dNow)); %>></input><br>
+	ìž‘ì„±ìž<input type="text" id="user" name="user" value=<% out.println(session.getAttribute("userid")); %>></input><br>
+	ì œëª©<input type="text" id="title" name="title" placeholder="ì œëª©ì„ ìž…ë ¥í•´ì£¼ì„¸ìš”"></input><br>
+	ë‚´ìš©<textarea name="content" id="contents" rows="4" cols="80" placeholder="ë‚´ìš©ì„ ìž…ë ¥í•´ì£¼ì„¸ìš”"></textarea>
 
-	<input type="submit" value="µî·ÏÇÏ±â"></input>
+	<input type="submit" value="ë“±ë¡í•˜ê¸°"></input>
 	</form>
 
 

@@ -27,6 +27,29 @@
    <insert id="board_write" parameterType="BoardDto">
     insert into boards values (boards_seq.nextval, #{date_auto}, #{user_auto}, #{title}, #{contents})
    </insert>
+   
+   <select id="board_num" resultType="BoardDto">
+   select seq, user_auto, title, contents
+   from boards 
+   where seq = #{seq}
+   </select>
+   
+   <update id="borad_update" parameterType="BoardDto">
+  
+   update boards SET
+   title = #{title},
+   contents = #{contents}
+   where seq = #{seq}
+   
+   </update>
+   
+   <delete id="board_delete" parameterType="BoardDto">
+   delete from boards 
+   where seq = #{seq}
+   
+   
+   </delete>
+   
 </mapper>
 
  

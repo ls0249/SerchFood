@@ -25,6 +25,22 @@ public class BoardDaoImpl implements BoardDao {
 		list = session.selectList("board_list", list);
 		return list;
 	}
+	@Override
+	public List board_read(int seq) {
+		List<BoardDto> list = new ArrayList<BoardDto>();
+		list=session.selectList("board_num", seq);
+		return list;
+	}
+	@Override
+	public void update(BoardDto dto) {
+		session.update("borad_update", dto);
+		session.commit();
+	}
+	@Override
+	public void delete(BoardDto dto) {
+		session.delete("board_delete", dto);
+		session.commit();
+	}
 	
 	
 	
